@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => 
 options.UseSqlite(builder.Configuration.GetConnectionString(name:"DefaultConnection")));
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
