@@ -39,16 +39,17 @@ public class teamsController : ControllerBase
         return CreatedAtAction("Get", routeValues:team.Id, value:team);
     }
 
-    [HttpPatch]
+    [HttpPatch(template: "{id:int}")]
     public async Task<IActionResult> Patch (int id, string country){
         var team = await _context.teams.FirstOrDefaultAsync(x => x.Id ==id);
         if (team == null)
             return BadRequest(error:"Invalid Id");
         team.Country = country;
+        await _context.SaveChangesAsync();
         return NoContent();
     }
 
-    [HttpDelete]
+    [HttpDelete (template:"{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         var team = await _context.teams.FirstOrDefaultAsync(x => x.Id == id);
