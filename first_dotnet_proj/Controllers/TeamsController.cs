@@ -1,51 +1,31 @@
-
 using first_dotnet_proj.Data;
 using first_dotnet_proj.Models;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace first_dotnet_project.Controllers;
 
 [Route(template: "api/[controller]")]
 [ApiController]
-public class TeamsController : ControllerBase
+public class teamsController : ControllerBase
 {
 
+
     private static AppDbContext _context;
-    public TeamsController(AppDbContext context){
+    public teamsController(AppDbContext context){
         _context = context;
     }
-    private static List<Team> teams = new List<Team>(){
-        new Team(){
-            Country = "Germany",
-            Name = "Honda",
-            Id = 1,
-            TeamPrinciple = "kelel"
-        },
-        new Team(){
-            Country = "France",
-            Name = "Honda",
-            Id = 2,
-            TeamPrinciple = "kelel"
-        },
-        new Team(){
-            Country = "Spain",
-            Name = "Honda",
-            Id = 3,
-            TeamPrinciple = "kelel"
-        }
-    };
-
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
+        var teams = await _context.teams.ToListAsync();
         return Ok(teams);
     }
 
     [HttpGet(template:"{id:int}")]
-    public IActionResult Get(int id){
+    public async Task<IActionResult> Get(int id){
     
-        var team = teams.FirstOrDefault(x => x.Id == id);
+        var team = await _context.teams.FirstOrDefaultAsync(x => x.Id == id);
         if (team ==null)
             return BadRequest(error:"Invalid id");
         
@@ -53,14 +33,15 @@ public class TeamsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post(Team team){
-        teams.Add(team);
+    public async Task<IActionResult> Post(Team team){
+        await _context.teams.AddAsync(team);
+        await _context.SaveChangesAsync();
         return CreatedAtAction("Get", routeValues:team.Id, value:team);
     }
 
     [HttpPatch]
-    public IActionResult Patch (int id, string country){
-        var team = teams.FirstOrDefault(x => x.Id ==id);
+    public async Task<IActionResult> Patch (int id, string country){
+        var team = await _context.teams.FirstOrDefaultAsync(x => x.Id ==id);
         if (team == null)
             return BadRequest(error:"Invalid Id");
         team.Country = country;
@@ -68,12 +49,13 @@ public class TeamsController : ControllerBase
     }
 
     [HttpDelete]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var team = teams.FirstOrDefault(x => x.Id == id);
+        var team = await _context.teams.FirstOrDefaultAsync(x => x.Id == id);
         if (team == null)
             return BadRequest(error: "Invalid Id");
-        teams.Remove(team);
+        _context.teams.Remove(team);
+        await _context.SaveChangesAsync();
         return NoContent();
     }
 }
