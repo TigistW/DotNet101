@@ -10,8 +10,8 @@ using first_dotnet_proj.Data;
 namespace first_dotnet_proj.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230424082215_initial migrations")]
-    partial class initialmigrations
+    [Migration("20230424092839_initial migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

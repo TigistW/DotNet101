@@ -5,7 +5,7 @@
 namespace first_dotnet_proj.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigrations : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
