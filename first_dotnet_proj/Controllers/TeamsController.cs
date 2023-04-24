@@ -1,5 +1,7 @@
+
 using first_dotnet_proj.Data;
 using first_dotnet_proj.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace first_dotnet_project.Controllers;
@@ -8,7 +10,6 @@ namespace first_dotnet_project.Controllers;
 [ApiController]
 public class TeamsController : ControllerBase
 {
-
 
     private static AppDbContext _context;
     public TeamsController(AppDbContext context){
